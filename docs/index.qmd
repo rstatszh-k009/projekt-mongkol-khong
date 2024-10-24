@@ -1,0 +1,29 @@
+---
+title: "index"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+data <- read_csv(here::here("daten/raw/ogd_standortindikatoren.csv"))
+```
+
+# Einleitung
+
+Das Projekt zur Standortattraktivität des Kantons Zürich umfasst eine umfassende Analyse, die hier durchgeführt wird.
+
+Zur Beurteilung der Standortattraktivität werden beispielweise Faktoren wie die Attraktivität für internationale Talente, Erwerbstätigenquote, Rekrutierungsschwierigkeiten, Anteil Top-Universitäten pro Einwohner, Anteil Bevölkerung mit Tertiärabschlus, Jugendarbeitslosigkeit beigezogen.
+
+Ziel ist es, die Wettbewerbsfähigkeit des Kantons Zürich mit der von München, Stockholm, Amsterdam, Dublin und London zu bewerten und messbar zu machen.
+
+## Daten
+
+## Analyseziele
+
+# Daten Aufbereitung
+
+# Daten Visualisierung
