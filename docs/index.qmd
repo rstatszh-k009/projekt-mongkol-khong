@@ -12,6 +12,10 @@ library(tidyverse)
 data <- read_csv(here::here("daten/raw/ogd_standortindikatoren.csv"))
 ```
 
+```{r}
+library("gt")
+```
+
 # Einleitung
 
 Das Projekt zur Standortattraktivität des Kantons Zürich umfasst eine umfassende Analyse, die hier durchgeführt wird.
@@ -26,4 +30,63 @@ Ziel ist es, die Wettbewerbsfähigkeit des Kantons Zürich mit der von München,
 
 # Daten Aufbereitung
 
+Bevor ich die Spalten in numerische Werte umwandel kann, muss ich die Zeilen mit fehlenden Werten eliminieren. Dadurch verliere ich 2 Beobachtungen und habe statt 45 Beobachtungen nur noch 43.
+
+```{r}
+# Zeilen mit NA in irgendeiner Spalte entfernen
+data <- na.omit(data)
+```
+
+```{r}
+data$London <- as.numeric(data$London)
+data$Stockholm <- as.numeric(data$Stockholm)
+data$Dublin <- as.numeric(data$Dublin)
+```
+
+```{r}
+# Zuerst die Daten ins lange Format bringen
+data_long <- data %>%  pivot_longer(
+  cols = c(Zuerich, London, Amsterdam, Muenchen, Dublin, Stockholm),                
+  names_to = "Stadt",                
+  values_to = "Wert")
+
+# Nun das lange Format zurück ins breite Format transformierendatensatz_wide <- datensatz_long %>%  pivot_wider(names_from = Indikatoren, values_from = Wert)
+```
+
+```{r}
+data_select <- data_long |> 
+  select(Messjahr, Stadt, Indikator, Wert)
+```
+
 # Daten Visualisierung
+
+```{r}
+Anteil_Bevoelkerung <- data_select |> 
+  filter(Indikator == "Anteil der Bevölkerung zwischen 15 und 64 Jahren") |> 
+  arrange(Wert)
+```
+
+```{r}
+ggplot(data = Anteil_Bevoelkerung,
+       mapping = aes(x = reorder(Stadt, -Wert),
+                     y = Wert,
+                     fill = Stadt)) +
+              geom_col(position = "dodge") +
+              labs(title = "Standortattraktivität des Kantons Zürich",
+              subtitle = "Städtevergleich", 
+              y = "Anteil der Bevölkerung zwischen 15 und 64 Jahren", 
+              x = "Städte") +
+    theme_minimal()
+```
+
+```{r}
+Anteil_Bevoelkerung <- Anteil_Bevoelkerung |> 
+  rename(Median = Wert)
+```
+
+```{r}
+Anteil_Bevoelkerung |> 
+  gt() |>   
+  tab_header(title = "Anteil der Bevölkerung: Vergleich der Städte"
+)
+```
