@@ -50,7 +50,7 @@ data_long <- data %>%  pivot_longer(
   names_to = "Stadt",                
   values_to = "Wert")
 
-# Nun das lange Format zurück ins breite Format transformierendatensatz_wide <- datensatz_long %>%  pivot_wider(names_from = Indikatoren, values_from = Wert)
+# Nun das lange Format zurück ins breite Format transformieren datensatz_wide <- datensatz_long %>%  pivot_wider(names_from = Indikatoren, values_from = Wert)
 ```
 
 ```{r}
@@ -73,7 +73,7 @@ ggplot(data = Anteil_Bevoelkerung,
                      fill = Stadt)) +
               geom_col(position = "dodge") +
               labs(title = "Standortattraktivität des Kantons Zürich",
-              subtitle = "Städtevergleich", 
+              subtitle = "Städtevergleich",
               y = "Anteil der Bevölkerung zwischen 15 und 64 Jahren", 
               x = "Städte") +
     theme_minimal()
