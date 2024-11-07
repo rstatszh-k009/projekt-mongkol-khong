@@ -90,3 +90,12 @@ Anteil_Bevoelkerung |>
   tab_header(title = "Anteil der Bevölkerung: Vergleich der Städte"
 )
 ```
+
+```{r}
+library(openxlsx)
+
+write_csv(x = data_select, 
+          here::here("daten/processed/standortindikatoren_überarbeitet.csv"))
+
+write.xlsx(data_select, here::here("daten/processed/standortindikatoren.xlsx"))
+```
