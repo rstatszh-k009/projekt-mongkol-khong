@@ -78,6 +78,7 @@ Anteil_Bevoelkerung <- data_select |>
 ```{r}
 #| label: fig-Anteil-Bev
 #| fig-cap: "Anteil der Bevölkerung zwischen 15 und 64 Jahren"
+#| fig-alt: "Hier ist eine Grafik über Anteil der Bevölkerung zwischen 15 und 64 Jahren"
 
 ggplot(data = Anteil_Bevoelkerung,
        mapping = aes(x = reorder(Stadt, -Wert),
