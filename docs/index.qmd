@@ -1,10 +1,19 @@
 ---
-title: "index"
-format: html
-editor: visual
+title: "Standortindicatoren"
+subtitle: "Städtevergleich"
+format:
+  html:
+    embed-resources: true
+    toc: true
+execute:
+  warning: false
+editor_options: 
+  chunk_output_type: console
+editor: source
 ---
 
 ```{r}
+#| echo: false
 library(tidyverse)
 ```
 
@@ -22,7 +31,7 @@ Das Projekt zur Standortattraktivität des Kantons Zürich umfasst eine umfass
 
 Zur Beurteilung der Standortattraktivität werden beispielweise Faktoren wie die Attraktivität für internationale Talente, Erwerbstätigenquote, Rekrutierungsschwierigkeiten, Anteil Top-Universitäten pro Einwohner, Anteil Bevölkerung mit Tertiärabschlus, Jugendarbeitslosigkeit beigezogen.
 
-Ziel ist es, die Wettbewerbsfähigkeit des Kantons Zürich mit der von München, Stockholm, Amsterdam, Dublin und London zu bewerten und messbar zu machen.
+Ziel ist es, die Wettbewerbsfähigkeit des Kantons Zürich mit der von München, Stockholm, Amsterdam, Dublin und London zu bewerten und messbar zu machen. Das hier ist eine Beispiels-Übung. Erstellt wird eine Grafik @fig-Anteil-Bev als Anschaubeispiel. Die genauen Werte findest du hier: @tbl-Anteil-Bev
 
 ## Daten
 
@@ -67,12 +76,15 @@ Anteil_Bevoelkerung <- data_select |>
 ```
 
 ```{r}
+#| label: fig-Anteil-Bev
+#| fig-cap: "Anteil der Bevölkerung zwischen 15 und 64 Jahren"
+
 ggplot(data = Anteil_Bevoelkerung,
        mapping = aes(x = reorder(Stadt, -Wert),
                      y = Wert,
                      fill = Stadt)) +
               geom_col(position = "dodge") +
-              labs(title = "Standortattraktivität des Kantons Zürich",
+              labs(title = "Anteil der Bevölkerung zwischen 15 und 64 Jahren",
               subtitle = "Städtevergleich",
               y = "Anteil der Bevölkerung zwischen 15 und 64 Jahren", 
               x = "Städte") +
@@ -85,6 +97,8 @@ Anteil_Bevoelkerung <- Anteil_Bevoelkerung |>
 ```
 
 ```{r}
+#| label: tbl-Anteil-Bev
+#| tbl-cap: "Anteil der Bevölkerung: Vergleich der Städte"
 Anteil_Bevoelkerung |> 
   gt() |>   
   tab_header(title = "Anteil der Bevölkerung: Vergleich der Städte"
