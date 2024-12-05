@@ -1,6 +1,8 @@
 ---
-title: "Standortindicatoren"
+title: "Standortindikatoren"
 subtitle: "Städtevergleich"
+author: "Mongkol"
+date: '`r format(Sys.Date(), "%d %B %Y")`' 
 format:
   html:
     embed-resources: true
@@ -23,19 +25,20 @@ data <- read_csv(here::here("daten/raw/ogd_standortindikatoren.csv"))
 
 ```{r}
 library("gt")
+library(ggalt)
 ```
 
 # Einleitung
 
-Das Projekt zur Standortattraktivität des Kantons Zürich umfasst eine umfassende Analyse, die hier durchgeführt wird.
+Das Projekt nutzt OGD Daten des Kantons Zürichs. In den Daten sind Indikatoren zur Messung der Standortattraktivität zwischen den Städten Zürich, München, Amsterdam, Stockholm, London sowie Dublin erfasst. In der heutigen Weltordnung, dienen Standortindikatoren als Vergleichsgrössen, um die "Wettbewerbsfähigkeit" von zu untersuchenden Beobachtungseinheiten miteinander zu vergleichen (Benchmarking). 
+
+## Daten
+Die Daten stammen vom OGD [Datensatz](https://www.zh.ch/de/politik-staat/statistik-daten/datenkatalog.html#/datasets/2423@awi-kanton-zuerich) des Kantons Zürich. 
 
 Zur Beurteilung der Standortattraktivität werden beispielweise Faktoren wie die Attraktivität für internationale Talente, Erwerbstätigenquote, Rekrutierungsschwierigkeiten, Anteil Top-Universitäten pro Einwohner, Anteil Bevölkerung mit Tertiärabschlus, Jugendarbeitslosigkeit beigezogen.
 
-Ziel ist es, die Wettbewerbsfähigkeit des Kantons Zürich mit der von München, Stockholm, Amsterdam, Dublin und London zu bewerten und messbar zu machen. Das hier ist eine Beispiels-Übung. Erstellt wird eine Grafik @fig-Anteil-Bev als Anschaubeispiel. Die genauen Werte findest du hier: @tbl-Anteil-Bev
-
-## Daten
-
 ## Analyseziele
+Ziel ist es, den Zusammenhang zwischen Altersstruktur der Bevölkerung in den Städten und deren Erwerbstätigenquote zu untersuchen. Wir gehen davon aus, dass eine Stadt mit einem hohen Anteil an 15 bis 64 Jährigen entsprechend auch eine hohe Erwerbstätigenquote ausweist. 
 
 # Daten Aufbereitung
 
@@ -67,35 +70,63 @@ data_select <- data_long |>
   select(Messjahr, Stadt, Indikator, Wert)
 ```
 
-# Daten Visualisierung
+# Ergebnisse
+Die Grafik @fig-Anteil-Bev vergleicht die im Datensatz vorhandenen Städte hinsichtlich ihrer Bevölkerungsstruktur. Dabei zeigt sich, dass die Stadt Zürich mit 57.8 Prozent den grössten Anteil an 15 bis 64 Jährigen aufweist, wobei Stockholm nur auf einen Anteil von 28.8 Prozent kommt (siehe @tbl-Anteil-Bev). Infolgedessen wäre gemäss unserer These davon auszugehen, dass die Stadt Zürich die höchste Erwerbstätigenquote und die Stadt Stockholm die tiefste Erwerbstätigenquote aufweisen. @fig-erwerbsquote bestätigt unsere Annahme mit Blick auf die Stadt Zürich. Jedoch weist nicht Stockholm die tiefste Erwerbstätigenquote aus, sondern Dublin, die mit 52.4 Prozent den zweithöchsten Anteil an erwerbsfähigen Bevölkerung aufweist.  
+
+## Daten Visualisierung
 
 ```{r}
 Anteil_Bevoelkerung <- data_select |> 
   filter(Indikator == "Anteil der Bevölkerung zwischen 15 und 64 Jahren") |> 
   arrange(Wert)
+
+erwerbstätigenquote <- data_select |> 
+  filter(Indikator == "Erwerbstätigenquote") |> 
+  arrange(Wert)
 ```
 
-```{r}
+```{r fig.height=6, fig.width=10}
 #| label: fig-Anteil-Bev
 #| fig-cap: "Anteil der Bevölkerung zwischen 15 und 64 Jahren"
 #| fig-alt: "Hier ist eine Grafik über Anteil der Bevölkerung zwischen 15 und 64 Jahren"
-
 ggplot(data = Anteil_Bevoelkerung,
        mapping = aes(x = reorder(Stadt, -Wert),
                      y = Wert,
                      fill = Stadt)) +
-              geom_col(position = "dodge") +
-              labs(title = "Anteil der Bevölkerung zwischen 15 und 64 Jahren",
-              subtitle = "Städtevergleich",
-              y = "Anteil der Bevölkerung zwischen 15 und 64 Jahren", 
-              x = "Städte") +
-    theme_minimal()
+  geom_col(position = "dodge") +
+  geom_text(aes(label = paste0(round(Wert, 1), "%")), 
+            position = position_dodge(width = 0.9),
+            vjust = -0.5) +
+  labs(title = "Anteil der Bevölkerung zwischen 15 und 64 Jahren",
+       subtitle = "Städtevergleich 2021",
+       y = "Anteil der Bevölkerung zwischen 15 und 64 Jahren", 
+       x = "Städte") +
+  scale_fill_brewer(palette = "Blues") +
+  theme_minimal()
+```
+
+```{r}
+#| label: fig-erwerbsquote
+#| fig-cap: "Anteil der Bevölkerung, die erwerbstätig sind"
+#| fig-alt: "Hier ist eine Grafik über Anteil der Bevölkerung, die erwerbstätig sind"
+ggplot(erwerbstätigenquote, aes(x = reorder(Stadt, -Wert), y = Wert)) +
+  geom_lollipop(point.colour = "steelblue", point.size = 3) +
+  geom_text(aes(label = paste0(round(Wert, 1), "%")), hjust = -0.2) +
+  labs(title = "Erwerbstätigenquote im Vergleich",
+       subtitle = "Städtevergleich 2021",
+       y = "Anteil der Bevölkerung, die erwerbstätig sind", 
+       x = "Städte") +
+  theme_minimal() +
+  coord_flip() +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1)))
 ```
 
 ```{r}
 Anteil_Bevoelkerung <- Anteil_Bevoelkerung |> 
   rename(Median = Wert)
 ```
+
+## Tabelle
 
 ```{r}
 #| label: tbl-Anteil-Bev
@@ -114,3 +145,8 @@ write_csv(x = data_select,
 
 write.xlsx(data_select, here::here("daten/processed/standortindikatoren.xlsx"))
 ```
+
+# Schlussfolgerung
+Der Anteil an der erwerbsfähigen Bevölkerung nach Alter (gemessen am Altersrange von 15 bis 64 Jahren) erklärt alleine nicht die höhe der Erwerbstätigenquote. Entsprechend ist davon auszugehen, dass noch andere Faktoren einen Einfluss auf die Höhe der Erwerbstätigenquote haben. Diese kleine Studie dient als Grundlage und Motivation, um weitere Erkenntnisse über Faktoren zu gewinnen, die einen Einfluss auf die Erwerbstätigenquote von Städten haben. Leider ist die Datenqualität und Beschreibung der Daten nicht nachvollziehbar bzw. fragwürdig. So ist der geringe Anteil der Bevölkerung von 15 bis 64 Jährigen bei der Stadt Stockholm (28.8 Prozent) nicht nachvollziehbar.
+
+
