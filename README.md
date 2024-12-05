@@ -17,6 +17,8 @@ Zur Beurteilung der Standortattraktivität werden beispielweise Faktoren wie die
 
 Hier sind die Rohdaten abegelegt welche mittels eines Skript zu bereinigten Daten umgewandelt wurden. 
 
+**ogd_standortindikatoren.csv**
+
 ### `daten/processed/`
 
 Hier sind die bereinigten Rohdaten zu finden. 
@@ -27,7 +29,7 @@ Hier sind die bereinigten Rohdaten zu finden.
 
 Vielen Dank an folgende Personen die mitgewirkt haben: 
 
-[@larnsce](https://github.com/larnsce) (diesen Eintrag entfernen und durch alle Namen ersetzten, welche dem Projekt beigetragen haben)
+[@fmpberger88](https://github.com/fmpberger88)
 
 ## Kontakt
 
