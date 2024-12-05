@@ -150,6 +150,6 @@ write.xlsx(data_select, here::here("daten/processed/standortindikatoren.xlsx"))
 ```
 
 # Schlussfolgerung
-Der Anteil an der erwerbsfähigen Bevölkerung nach Alter (gemessen am Altersrange von 15 bis 64 Jahren) erklärt alleine nicht die höhe der Erwerbstätigenquote. Entsprechend ist davon auszugehen, dass noch andere Faktoren einen Einfluss auf die Höhe der Erwerbstätigenquote haben. Diese kleine Studie dient als Grundlage und Motivation, um weitere Erkenntnisse über Faktoren zu gewinnen, die einen Einfluss auf die Erwerbstätigenquote von Städten haben. Leider ist die Datenqualität und Beschreibung der Daten nicht nachvollziehbar bzw. fragwürdig. So ist der geringe Anteil der Bevölkerung von 15 bis 64 Jährigen bei der Stadt Stockholm (28.8 Prozent) nicht nachvollziehbar.
+Der Anteil an der erwerbsfähigen Bevölkerung nach Alter (gemessen am Altersrange von 15 bis 64 Jahren) erklärt alleine nicht die Höhe der Erwerbstätigenquote. Entsprechend ist davon auszugehen, dass noch andere Faktoren einen Einfluss auf die Höhe der Erwerbstätigenquote haben. Diese kleine Studie dient als Grundlage und Motivation, um weitere Erkenntnisse über Faktoren zu gewinnen, die einen Einfluss auf die Erwerbstätigenquote von Städten haben. Leider ist die Datenqualität und Beschreibung der Daten nicht nachvollziehbar bzw. fragwürdig. So ist der geringe Anteil der Bevölkerung von 15 bis 64 Jährigen bei der Stadt Stockholm (28.8 Prozent) nicht nachvollziehbar.
 
 
