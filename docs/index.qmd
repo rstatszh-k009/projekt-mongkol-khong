@@ -92,7 +92,7 @@ erwerbstätigenquote <- data_select |>
 ggplot(data = Anteil_Bevoelkerung,
        mapping = aes(x = reorder(Stadt, -Wert),
                      y = Wert,
-                     fill = Stadt)) +
+                     fill = reorder(Stadt, -Wert))) +  # Änderung hier
   geom_col(position = "dodge") +
   geom_text(aes(label = paste0(round(Wert, 1), "%")), 
             position = position_dodge(width = 0.9),
@@ -100,10 +100,13 @@ ggplot(data = Anteil_Bevoelkerung,
   labs(title = "Anteil der Bevölkerung zwischen 15 und 64 Jahren",
        subtitle = "Städtevergleich 2021",
        y = "Anteil der Bevölkerung zwischen 15 und 64 Jahren", 
-       x = "Städte") +
+       x = "Städte",
+       fill = "Städte") +
   scale_fill_brewer(palette = "Blues") +
+  guides(fill = guide_legend(reverse = FALSE)) +  # Neue Zeile
   theme_minimal()
 ```
+
 
 ```{r}
 #| label: fig-erwerbsquote
